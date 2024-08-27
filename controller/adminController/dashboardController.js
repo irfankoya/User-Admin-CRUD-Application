@@ -92,7 +92,6 @@ const deleteUser = async (req, res) => {
 };
 
 export {
-  // dashboard,
   createUserPost,
   editUser,
   editUserPost,

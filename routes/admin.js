@@ -11,7 +11,6 @@ adminRouter.get ('/dashboard/',adminMiddleware, adminDashboard )
 adminRouter.get('/logout',adminlogout)
 
 
-// adminRouter.get("/edit-user",dashboard)
 adminRouter.get("/createUser",adminMiddleware,createUser)
 adminRouter.post("/createUser",createUserPost)
 adminRouter.get("/editUser/:id",adminMiddleware,editUser)

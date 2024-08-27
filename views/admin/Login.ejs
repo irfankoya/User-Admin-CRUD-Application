@@ -1,0 +1,86 @@
+<style>
+    .login-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    .form-control {
+      margin-bottom: 10px;
+    }
+    .toggle{
+      position: relative;
+     width: 100%;
+    }
+    .toggle input{
+      width: 100%;
+     padding-right: 30px; 
+    }
+    .toggle .eye-icon{
+      position: absolute;
+     right: 10px;
+     top: 77%;
+     transform: translateY(-50%);
+     cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-container">
+      <h2 class="text-center">Admin Login</h2>
+      <form action="/admin  " method="post">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3 toggle">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+          <i class="fas fa-eye eye-icon" id="togglePassword"></i>
+        </div>
+
+        <% if (typeof errorMessage !== 'undefined') { %>
+          <p class="text-danger fw-bolder" id="error-message"><%= errorMessage %></p>
+      <% } %>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        <div class="text-center mt-3">
+          <a href="/signup">Don't have an account? Sign up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      setTimeout(function(){
+        var errormessage=document.getElementById("error-message")
+        if(errormessage){
+          errormessage.style.display="none"
+        }
+      }, 4000)
+    })
+    const PasswordIs = document.getElementById("password");
+  const eyeIcon = document.getElementById("togglePassword");
+
+  eyeIcon.addEventListener("mousedown", () => {
+    PasswordIs.type = "text";
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+  });
+
+  eyeIcon.addEventListener("mouseup", () => {
+    PasswordIs.type = "password";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  });
+  eyeIcon.addEventListener("mouseleave", () => {
+    PasswordIs.type = "password";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  }); 
+  </script>

@@ -1,0 +1,22 @@
+<style>
+    .alert-message{
+        height: 3.5rem;
+        color: #8c0000;
+        background:rgb(211, 211, 211);
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<% if(alert.length > 0) {%>
+<div class="alert-message">
+    <h4>
+        <%= alert  %>
+    </h4>
+</div>
+<% } %>
+<script>
+    setTimeout(()=>{
+        document.getElementsByClassName('alert-message')[0].style.display='none'
+    },3000)
+</script>

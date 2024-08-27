@@ -1,0 +1,208 @@
+<style>
+  .login-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  .login-button a {
+    color: white;
+  }
+  .signbutton {
+    margin-top: 20px;
+  }
+  .password-container {
+    position: relative;
+    width: 100%;
+  }
+  .password-container input {
+    width: 100%;
+    padding-right: 30px; 
+  }
+  .password-container .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 70%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+</style>
+
+<button class="btn btn-danger login-button">
+  <a href="/admin/dashboard"><i class="fa-solid fa-right-from-bracket">Dashboard</i></a>
+</button>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">Sign Up</div>
+        <div class="card-body">
+          <form id="form" action="/admin/createUser" method="post">
+            <div class="form-group">
+              <label for="inputUsername">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputUsername"
+                placeholder="Enter username"
+                name="username"
+              />
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="inputEmail"
+                placeholder="Enter email"
+                name="email"
+              />
+              <div class="error"></div>
+            </div>
+            <div class="form-group password-container">
+              <label for="inputPassword">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPassword"
+                placeholder="Enter password"
+                name="password"
+              />
+              <div class="error"></div>
+              <i class="fas fa-eye eye-icon" id="togglePassword"></i>   
+            </div>
+            <div class="form-group">
+              <label for="inputConfirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputConfirmPassword"
+                placeholder="Confirm password"
+              />
+              <div class="error"></div>
+            </div>
+            <button type="submit" class="btn btn-primary signbutton"  >
+              Add User
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const form = document.getElementById("form");
+const username = document.getElementById("inputUsername");
+const email = document.getElementById("inputEmail");
+const password = document.getElementById("inputPassword");
+const confirmPassword = document.getElementById("inputConfirmPassword");
+
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (validateInputs()) {
+    form.submit();
+  }
+});
+
+const setError = (element, message) => {
+  const inputControl = element.parentElement;
+  const errordisplay = inputControl.querySelector(".error");
+
+  errordisplay.innerText = message;
+  inputControl.classList.add("error");
+  inputControl.classList.remove("success");
+};
+
+const setSuccess = (element) => {
+  const inputControl = element.parentElement;
+  const errordisplay = inputControl.querySelector(".error");
+
+  errordisplay.innerText = "";
+  inputControl.classList.add("success");
+  inputControl.classList.remove("error");
+};
+
+const isValidEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const isValidUsername = (username)=>{
+  const re= /^[A-Za-z]+$/
+  return re.test(username)
+}
+const validateInputs = () => {
+  const usernameValue = username.value.trim();
+  const emailValue = email.value.trim();
+  const passwordValue = password.value.trim();
+  const confirmPasswordValue = confirmPassword.value.trim();
+
+  let isValid = true;
+
+  if (usernameValue === "") {
+    setError(username, "Username is required");
+  } else if(!isValidUsername(usernameValue)){
+    setError(username, "The username can only be letters");
+    isValid = false;
+  }else{
+    setSuccess(username)
+  }
+
+  if (emailValue === "") {
+    setError(email, "Email is required");
+    isValid = false;
+  } else if (!isValidEmail(emailValue)) {
+    setError(email, "Provide a valid email address");
+    isValid = false;
+  } else {
+    setSuccess(email);
+  }
+
+  if (passwordValue === "") {
+    setError(password, "Password is required");
+    isValid = false;
+  } else if (passwordValue.length < 8) {
+    setError(password, "Password should be at least 8 characters");
+    isValid = false;
+  } else {
+    setSuccess(password);
+  }
+
+  if (confirmPasswordValue === "") {
+    setError(confirmPassword, "Confirm password is required");
+    isValid = false;
+  } else if (passwordValue !== confirmPasswordValue) {
+    setError(confirmPassword, "Passwords do not match");
+    isValid = false;
+  } else {
+    setSuccess(confirmPassword);
+  }
+
+  return isValid;
+};
+
+
+const PasswordIs = document.getElementById("inputPassword");
+  const eyeIcon = document.getElementById("togglePassword");
+
+  eyeIcon.addEventListener("mousedown", () => {
+    PasswordIs.type = "text";
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+  });
+
+  eyeIcon.addEventListener("mouseup", () => {
+    PasswordIs.type = "password";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  });
+  eyeIcon.addEventListener("mouseleave", () => {
+    PasswordIs.type = "password";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  });
+
+</script>
